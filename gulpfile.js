@@ -15,9 +15,9 @@ let gulp = require("gulp"),
 	imagemin = require("gulp-imagemin"), //пережимает изображения
 	recompress = require("imagemin-jpeg-recompress"), //тоже пережимает, но лучше. Плагин для плагина
 	pngquant = require("imagemin-pngquant"),
-	webp = require('gulp-webp'),
-	webphtml = require('gulp-webp-html'),
-	webpcss = require("gulp-webpcss"),
+	// webp = require('gulp-webp'),
+	// webphtml = require('gulp-webp-html'),
+	// webpcss = require("gulp-webpcss"),
 	uglify = require("gulp-uglify"), //то же, что cssmin, только для js
 	concat = require("gulp-concat"), //склеивает css и js-файлы в один
 	del = require("del"), //удаляет указанные файлы и директории. Нужен для очистки перед билдом
@@ -79,7 +79,7 @@ gulp.task("scss", function () {
 				},
 			}),
 		)
-		.pipe(webpcss())
+		// .pipe(webpcss())
 		.pipe(sourcemaps.write()) //записываем карту в итоговый файл
 		.pipe(gulp.dest("build/css")) //кладём итоговый файл в директорию build/css
 		.pipe(
@@ -98,6 +98,10 @@ gulp.task("style", function () {
 		.src([
 			//указываем, где брать исходники
 			"node_modules/normalize.css/normalize.css",
+			'node_modules/animate.css/animate.css',
+			'node_modules/jquery-form-styler/dist/jquery.formstyler.css',
+			'node_modules/jquery-form-styler/dist/jquery.formstyler.theme.css',
+			"node_modules/slick-carousel/slick/slick.css"
 		])
 		.pipe(concat("libs.min.css")) //склеиваем их в один файл с указанным именем
 		.pipe(cssmin()) //минифицируем полученный файл
@@ -110,7 +114,10 @@ gulp.task("script", function () {
 	return gulp
 		.src([
 			//тут подключаем разные js в общую библиотеку. Отключите то, что вам не нужно.
-			"node_modules/jquery/dist/jquery.js"
+			"node_modules/jquery/dist/jquery.js",
+			'node_modules/wow.js/dist/wow.js',
+			'node_modules/jquery-form-styler/dist/jquery.formstyler.js',
+			"node_modules/slick-carousel/slick/slick.js"
 		])
 		.pipe(size())
 		.pipe(babel())
@@ -156,7 +163,7 @@ gulp.task("html", function () {
 				basepath: "@file",
 			}),
 		)
-		.pipe(webphtml())
+		// .pipe(webphtml())
 		.pipe(gulp.dest("build/"))
 		.pipe(size())
 		.pipe(
@@ -261,22 +268,22 @@ gulp.task("images", function () {
 		.pipe(size());
 });
 
-gulp.task("webp", function () {
-	return gulp
-		.src("src/images/**/*.+(png|jpg|jpeg|gif|svg|ico|webp)")
-		.pipe(size())
-		.pipe(webp({
-			quality: 75,
-			method: 6,
-		}))
-		.pipe(gulp.dest("build/images"))
-		.pipe(
-			browserSync.reload({
-				stream: true,
-			}),
-		)
-		.pipe(size())
-});
+// gulp.task("webp", function () {
+// 	return gulp
+// 		.src("src/images/**/*.+(png|jpg|jpeg|gif|svg|ico|webp)")
+// 		.pipe(size())
+// 		.pipe(webp({
+// 			quality: 75,
+// 			method: 6,
+// 		}))
+// 		.pipe(gulp.dest("build/images"))
+// 		.pipe(
+// 			browserSync.reload({
+// 				stream: true,
+// 			}),
+// 		)
+// 		.pipe(size())
+// });
 
 gulp.task("deletefonts", function () {
 	//задачи для очистки директории со шрифтами в build. Нужна для того, чтобы удалить лишнее.
@@ -297,7 +304,7 @@ gulp.task("watch", function () {
 		gulp.parallel("font-woff", "font-woff2", "font-eot"),
 	);
 	gulp.watch("src/js/**/*.js", gulp.parallel("minjs", "js"));
-	gulp.watch("src/images/**/*.*", gulp.parallel("images", "webp"));
+	gulp.watch("src/images/**/*.*", gulp.parallel("images"));
 });
 
 gulp.task("deploy", function () {
@@ -342,9 +349,9 @@ gulp.task(
 		"script",
 		"minjs",
 		"html",
-		"font-woff",
-		"font-eot",
-		"font-woff2",
-		"images",
+		// "font-woff",
+		// "font-eot",
+		// "font-woff2",
+		// "images",
 	),
 ); //запускает все перечисленные задачи разом

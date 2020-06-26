@@ -1,2 +1,8 @@
 $red:#9e171d;
 $text: #82878a;
+
+@mixin icon {
+	font-family: 'icomoon';
+	position: absolute;
+	color: #fff;
+}

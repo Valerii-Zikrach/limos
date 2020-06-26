@@ -3,11 +3,19 @@
 @@include('components/_head.html')
 
 <body>
-  @@include('components/_header.html')
-  <!-- WRITE CODE HERE -->
-
-  <!-- STOP WRITE CODE -->
-  @@include('components/_footer.html')
+	<div class="wrapper">
+		<div class="content">
+			@@include('components/_header.html')
+			<!-- WRITE CODE HERE -->
+			@@include('components/_intro-slider.html')
+			@@include('components/_advantages.html')
+			@@include('components/_fleet.html')
+			@@include('components/_contact.html')
+			@@include('components/_testimonials.html')
+			<!-- STOP WRITE CODE -->
+		</div>
+		@@include('components/_footer.html')
+	</div>
   @@include('components/_scripts.html')
 </body>
 
